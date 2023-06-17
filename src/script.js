@@ -1,6 +1,12 @@
 function showCurrentTemp(response) {
+  console.log(response);
   let currentTemperature = document.querySelector("#current-temperature");
+  let iconElement = document.querySelector("#icon");
   currentTemperature.innerHTML = Math.round(response.data.main.temp);
+  iconElement.setAttribute(
+    "src",
+    `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
+  );
 }
 
 function apiCitySearch(city) {
@@ -9,24 +15,35 @@ function apiCitySearch(city) {
   axios.get(apiUrl).then(showCurrentTemp);
 }
 
-function handleCurrentPosition(position) {
-  let latitude = position.coords.latitude;
-  let longitude = position.coords.longitude;
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}`;
-
-  axios.get(`${apiUrl}&appid=${apiKey}&units=${units}`).then(logCurrentTemp);
-}
+// function handleCurrentPosition(position) {}
 
 function logCurrentTemp(response) {
   let currentTemperature = document.querySelector("#current-temperature");
   let city = document.querySelector("h1");
+  let icon = document.querySelector("#icon");
   city.innerHTML = response.data.name;
   currentTemperature.innerHTML = Math.round(response.data.main.temp);
+  icon.setAttribute(
+    "src",
+    `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
+  );
 }
 
 function locateCurrentPosition(event) {
   event.preventDefault();
-  navigator.geolocation.getCurrentPosition(handleCurrentPosition);
+  if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      let latitude = position.coords.latitude;
+      let longitude = position.coords.longitude;
+      let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}`;
+
+      axios
+        .get(`${apiUrl}&appid=${apiKey}&units=${units}`)
+        .then(logCurrentTemp);
+    });
+  } else {
+    console.error("Error getting user location:", error);
+  }
 }
 
 let currentPosition = document.querySelector("#current-position");
