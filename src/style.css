@@ -5,10 +5,6 @@
 body {
   background-image: url("ritam-baishya-ROVBDer29PQ-unsplash.jpg");
   margin: 0;
-  width: 99vw;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
 #name-app {
@@ -82,11 +78,26 @@ h1 {
 .active {
   text-decoration: none;
   color: black;
-  
+  cursor: default;
+}
+
+#wind-speed {
+  color: red;
+}
+
+#humidity {
+  color: red;
+}
+
+#weather-description {
+  display: block;
+  color: grey;
+}
+
+#weather-description::first-letter {
+  text-transform: uppercase;
 }
 
 footer {
   text-align: center;
-  margin-top: auto;
-  min-height: 50px;
 }
