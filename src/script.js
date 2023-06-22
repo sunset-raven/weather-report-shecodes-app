@@ -2,7 +2,7 @@ let currentPosition = document.querySelector("#current-position");
 currentPosition.addEventListener("click", locateCurrentPosition);
 
 let units = "metric";
-let apiKey = "2ce2b223dde112d0e1db1a6bf0973e96";
+let apiKey = "9db3t643621b51990bco3eac83a0cf5a";
 
 let searchCity = document.querySelector("#search-city");
 searchCity.addEventListener("submit", searchingCity);
@@ -19,9 +19,60 @@ function searchingCity(event) {
   inputCity.value = "";
 }
 
-function apiCitySearch(city) {
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`;
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  let day = days[date.getDay()];
+  return day;
+}
 
+function showForecastTemp(response) {
+  let forecast = response.data.daily;
+  let forecastElement = document.querySelector("#forecast-card");
+  let dayCount = null;
+
+  let forecastHTML = `<div class="row g-0 justify-content-center">`;
+  forecast.forEach(function (day, index) {
+    if (index < 6) {
+      forecastHTML =
+        forecastHTML +
+        `
+        <div class="col-2 text-center">
+          <span id="forecast-day">${formatDay(day.time)}</span>
+          <br />
+          <img
+            src="${day.condition.icon_url}"
+            alt="${day.condition.description}"
+            id="forecast-img"
+          />
+          <br />
+          <span id="forecast-temp-max">${Math.round(
+            day.temperature.maximum
+          )}°C</span>
+          <span id="forecast-temp-min">${Math.round(
+            day.temperature.minimum
+          )}°C</span>
+        </div>
+      `;
+    }
+  });
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+}
+
+function apiCitySearch(city) {
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}`;
+  let forecastApiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}`;
+
+  axios.get(forecastApiUrl).then(showForecastTemp);
   axios.get(apiUrl).then(showCurrentTemp);
 }
 
@@ -31,15 +82,12 @@ function showCurrentTemp(response) {
   let humidity = document.querySelector("#humidity");
   let weatherDescription = document.querySelector("#weather-description");
   let icon = document.querySelector("#icon");
-  celsiusTemperature = response.data.main.temp; 
-  currentTemperature.innerHTML = Math.round(response.data.main.temp);
+  celsiusTemperature = response.data.temperature.current;
+  currentTemperature.innerHTML = Math.round(response.data.temperature.current);
   windSpeed.innerHTML = response.data.wind.speed;
-  humidity.innerHTML = response.data.main.humidity;
-  weatherDescription.innerHTML = response.data.weather[0].description;
-  icon.setAttribute(
-    "src",
-    `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
-  );
+  humidity.innerHTML = response.data.temperature.humidity;
+  weatherDescription.innerHTML = response.data.condition.description;
+  icon.setAttribute("src", `${response.data.condition.icon_url}`);
 }
 
 function showCurrentLocalTemp(response) {
@@ -49,16 +97,13 @@ function showCurrentLocalTemp(response) {
   let humidity = document.querySelector("#humidity");
   let weatherDescription = document.querySelector("#weather-description");
   let icon = document.querySelector("#icon");
-  celsiusTemperature = response.data.main.temp;
-  city.innerHTML = response.data.name;
-  currentTemperature.innerHTML = Math.round(response.data.main.temp);
+  celsiusTemperature = response.data.temperature.current;
+  city.innerHTML = response.data.city;
+  currentTemperature.innerHTML = Math.round(response.data.temperature.current);
   windSpeed.innerHTML = response.data.wind.speed;
-  humidity.innerHTML = response.data.main.humidity;
+  humidity.innerHTML = response.data.temperature.humidity;
   weatherDescription.innerHTML = response.data.weather[0].description;
-  icon.setAttribute(
-    "src",
-    `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
-  );
+  icon.setAttribute("src", `${response.data.condition.icon_url}`);
 }
 
 function locateCurrentPosition(event) {
@@ -67,11 +112,9 @@ function locateCurrentPosition(event) {
     navigator.geolocation.getCurrentPosition(function (position) {
       let latitude = position.coords.latitude;
       let longitude = position.coords.longitude;
-      let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}`;
+      let apiUrl = `https://api.shecodes.io/weather/v1/current?lon=${longitude}&lat=${latitude}&key=${apiKey}`;
 
-      axios
-        .get(`${apiUrl}&appid=${apiKey}&units=${units}`)
-        .then(showCurrentLocalTemp);
+      axios.get(`${apiUrl}`).then(showCurrentLocalTemp);
     });
   } else {
     console.error("Error getting user location:", error);
@@ -127,3 +170,32 @@ function changeToCel(event) {
 
 let clickCel = document.querySelector("#submit-button-cel1");
 clickCel.addEventListener("click", changeToCel);
+
+function displayForecast() {
+  let forecast = document.querySelector("#forecast-card");
+
+  let forecastHTML = `<div class="row g-0 justify-content-center">`;
+  let days = ["Thu", "Fri", "Sat", "Sun", "Mon", "Tue"];
+  days.forEach(function (day) {
+    forecastHTML =
+      forecastHTML +
+      `
+        <div class="col-2 text-center">
+          <span id="forecast-day">${day}</span>
+          <br />
+          <img
+            src="https://openweathermap.org/img/wn/01d@2x.png"
+            alt=""
+            id="forecast-img"
+          />
+          <br />
+          <span id="forecast-temp-max">Max</span>
+          <span id="forecast-temp-min">Min</span>
+        </div>
+      `;
+  });
+  forecastHTML = forecastHTML + `</div>`;
+  forecast.innerHTML = forecastHTML;
+}
+
+displayForecast();

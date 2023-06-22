@@ -35,6 +35,7 @@ h1 {
 
 #submit-city-button {
   margin-bottom: 1rem;
+  min-width: 80px;
 }
 
 #temperature-card {
@@ -48,6 +49,7 @@ h1 {
 }
 
 #today-card {
+  text-align: left;
   line-height: calc(24px + 6vw);
 }
 
@@ -58,7 +60,7 @@ h1 {
 
 #current-temperature {
   text-align: center;
-  font-size:calc(24px + 5vw);
+  font-size: calc(24px + 5vw);
 }
 
 #current-temp-card {
@@ -96,6 +98,30 @@ h1 {
 
 #weather-description::first-letter {
   text-transform: uppercase;
+}
+
+#forecast-card {
+  padding: 10px;
+  background-color: antiquewhite;
+  margin-bottom: 20px;
+}
+
+#forecast-day {
+  font-size: calc(10px + 1vw);
+}
+
+#forecast-img {
+  min-width: 50px;
+  max-width: 5vw;
+}
+
+#forecast-temp-max {
+  font-size: calc(8px + 0.5vw);
+}
+
+#forecast-temp-min {
+  font-size: calc(8px + 0.5vw);
+  opacity: 0.5;
 }
 
 footer {

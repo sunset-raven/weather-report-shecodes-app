@@ -23,88 +23,89 @@
   </head>
   <body>
     <div class="container-fluid" id="max-container">
-    <header>
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col text-truncate" id="name-app">
-            Name of the Weather Application
+      <header>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col text-truncate" id="name-app">
+              Weather Application
+            </div>
+            <div class="col" id="current-date"></div>
+            <form class="col row" id="search-city">
+              <input
+                title="Remember to write in english!"
+                type="search"
+                class="col form-control"
+                placeholder="Search a city..."
+                id="input-city"
+              />
+              <button
+                type="submit"
+                class="col-sm-2 mb-0 btn btn-dark"
+                id="submit-city-button"
+              >
+                Search
+              </button>
+            </form>
           </div>
-          <div class="col" id="current-date"></div>
-
-          <form class="col row" id="search-city">
-            <input
-              type="search"
-              class="col form-control"
-              placeholder="Search a city..."
-              id="input-city"
-            />
-
-            <button
-              type="submit"
-              class="col-sm-2 mb-0 btn btn-dark"
-              id="submit-city-button"
-            >
-              Search
-            </button>
-          </form>
+        </div>
+      </header>
+      <h1>Select your city!</h1>
+      <div class="container text-center">
+        <button type="button" class="btn btn-primary" id="current-position">
+          Check the temperature of your current position!
+        </button>
+      </div>
+      <div class="container border border-black rounded" id="temperature-card">
+        <div class="row g-0 justify-content-center">
+          <div class="col col-lg-3 border-black" id="today-and-photo">
+            <div class="row">
+              <img
+                class="img-fluid col-sm-6 col-xs-6 mx-auto"
+                src="https://openweathermap.org/img/wn/01d@2x.png"
+                alt=""
+                id="icon"
+              />
+              <span class="col-sm-6 col-xs-6 text-center" id="today-card"
+                >Today</span
+              >
+            </div>
+          </div>
+          <div class="col col-lg-6" id="current-temp-card">
+            <div class="row">
+              <div class="col" id="current-temperature">0</div>
+              <div class="col" id="buttons">
+                <a href="#" class="active" id="submit-button-cel1">°C</a>
+                <br />
+                <a href="#" id="submit-button-far1">°F</a>
+              </div>
+              <div class="col">
+                <span>Wind speed: </span><span id="wind-speed">0</span
+                ><span id="wind-speed-measure"> Km/h</span>
+                <br />
+                <span>Humidity: </span><span id="humidity">0</span
+                ><span>%</span>
+                <br />
+                <span id="weather-description">Weather description</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </header>
-    <h1>Select your city!</h1>
-    <div class="container text-center">
-      <button type="button" class="btn btn-primary" id="current-position">
-        Check the temperature of your current position!
-      </button>
-    </div>
-    <div class="container border border-black rounded" id="temperature-card">
-      <div class="row g-0 justify-content-center">
-        <div class="col col-lg-3 border-end border-black" id="today-and-photo">
-          <div class="row">
-            <span class="col-sm-6 col-xs-6 text-center" id="today-card"
-              >Today</span
-            >
-            <img
-              class="img-fluid col-sm-6 col-xs-6 mx-auto"
-              src="https://openweathermap.org/img/wn/01d@2x.png"
-              alt=""
-              id="icon"
-            />
-          </div>
-        </div>
-        <div class="col col-lg-6" id="current-temp-card">
-          <div class="row">
-            <div class="col-md-6 col-sm-6 col-xs-6" id="current-temperature">
-              0
-            </div>
-            <div class="col-md-2 col-sm-2 col-xs-2" id="buttons">
-              <a href="#" class="active" id="submit-button-cel1">°C</a>
-              <br />
-              <a href="#" id="submit-button-far1">°F</a>
-            </div>
-            <div class="col-md-4 col-sm-4 col-xs-4">
-              <span>Wind speed: </span><span id="wind-speed">0</span
-              ><span id="wind-speed-measure"> m/s</span>
-              <br />
-              <span>Humidity: </span><span id="humidity">0</span><span>%</span>
-              <br />
-              <span id="weather-description">Weather description</span>
-            </div>
-          </div>
-        </div>
+      <div class="container border border-black rounded" id="forecast-card">
+        <div class="row g-0 justify-content-center"></div>
       </div>
+      <footer>
+        Produced by the not so healthy mind of Andréa Vetter. Hosted on
+        <a href="https://github.com/sunset-raven/weather-report-shecodes-app"
+          >GitHub</a
+        >.
+      </footer>
     </div>
-    <footer>
-      Produced by the not so healthy mind of Andréa Vetter. Hosted on
-      <a href="https://github.com/sunset-raven/weather-report-shecodes-app"
-        >GitHub</a
-      >.
-    </footer>
-    </div>
-    <script
+    <!-- <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
       crossorigin="anonymous"
-    ></script>
+    ></script> -->
     <script src="src/script.js"></script>
   </body>
 </html>
