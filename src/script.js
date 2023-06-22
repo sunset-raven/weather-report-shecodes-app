@@ -68,6 +68,40 @@ function showForecastTemp(response) {
   forecastElement.innerHTML = forecastHTML;
 }
 
+function showForecastLocalTemp(response) {
+  let forecast = response.data.daily;
+  let forecastElement = document.querySelector("#forecast-card");
+  let dayCount = null;
+
+  let forecastHTML = `<div class="row g-0 justify-content-center">`;
+  forecast.forEach(function (day, index) {
+    if (index < 6) {
+      forecastHTML =
+        forecastHTML +
+        `
+        <div class="col-2 text-center">
+          <span id="forecast-day">${formatDay(day.time)}</span>
+          <br />
+          <img
+            src="${day.condition.icon_url}"
+            alt="${day.condition.description}"
+            id="forecast-img"
+          />
+          <br />
+          <span id="forecast-temp-max">${Math.round(
+            day.temperature.maximum
+          )}°C</span>
+          <span id="forecast-temp-min">${Math.round(
+            day.temperature.minimum
+          )}°C</span>
+        </div>
+      `;
+    }
+  });
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+}
+
 function apiCitySearch(city) {
   let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}`;
   let forecastApiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}`;
@@ -112,8 +146,10 @@ function locateCurrentPosition(event) {
     navigator.geolocation.getCurrentPosition(function (position) {
       let latitude = position.coords.latitude;
       let longitude = position.coords.longitude;
-      let apiUrl = `https://api.shecodes.io/weather/v1/current?lon=${longitude}&lat=${latitude}&key=${apiKey}`;
-
+      let apiUrl = `https://api.shecodes.io/weather/v1/current?lat=${latitude}&lon=${longitude}&key=${apiKey}`;
+      let forecastApiUrl = `https://api.shecodes.io/weather/v1/forecast?lat=${latitude}&lon=${longitude}&key=${apiKey}`;
+      
+      axios.get(`${forecastApiUrl}`).then(showForecastLocalTemp);
       axios.get(`${apiUrl}`).then(showCurrentLocalTemp);
     });
   } else {
@@ -184,7 +220,7 @@ function displayForecast() {
           <span id="forecast-day">${day}</span>
           <br />
           <img
-            src="https://openweathermap.org/img/wn/01d@2x.png"
+            src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/clear-sky-day.png"
             alt=""
             id="forecast-img"
           />
