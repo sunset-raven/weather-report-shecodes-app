@@ -136,7 +136,7 @@ function showCurrentLocalTemp(response) {
   currentTemperature.innerHTML = Math.round(response.data.temperature.current);
   windSpeed.innerHTML = response.data.wind.speed;
   humidity.innerHTML = response.data.temperature.humidity;
-  weatherDescription.innerHTML = response.data.weather[0].description;
+  weatherDescription.innerHTML = response.data.condition.description;
   icon.setAttribute("src", `${response.data.condition.icon_url}`);
 }
 
@@ -148,7 +148,7 @@ function locateCurrentPosition(event) {
       let longitude = position.coords.longitude;
       let apiUrl = `https://api.shecodes.io/weather/v1/current?lat=${latitude}&lon=${longitude}&key=${apiKey}`;
       let forecastApiUrl = `https://api.shecodes.io/weather/v1/forecast?lat=${latitude}&lon=${longitude}&key=${apiKey}`;
-      
+
       axios.get(`${forecastApiUrl}`).then(showForecastLocalTemp);
       axios.get(`${apiUrl}`).then(showCurrentLocalTemp);
     });
