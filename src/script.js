@@ -184,29 +184,6 @@ function showDate() {
 
 showDate();
 
-function changeToFar(event) {
-  event.preventDefault();
-  let temperature = document.querySelector("#current-temperature");
-  let newTemperature = celsiusTemperature * 1.8 + 32;
-  temperature.innerHTML = Math.round(newTemperature);
-  clickFar.classList.add("active");
-  clickCel.classList.remove("active");
-}
-
-let clickFar = document.querySelector("#submit-button-far1");
-clickFar.addEventListener("click", changeToFar);
-
-function changeToCel(event) {
-  event.preventDefault();
-  let temperature = document.querySelector("#current-temperature");
-  temperature.innerHTML = Math.round(celsiusTemperature);
-  clickCel.classList.add("active");
-  clickFar.classList.remove("active");
-}
-
-let clickCel = document.querySelector("#submit-button-cel1");
-clickCel.addEventListener("click", changeToCel);
-
 function displayForecast() {
   let forecast = document.querySelector("#forecast-card");
 
