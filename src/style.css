@@ -114,5 +114,6 @@ h1 {
 }
 
 footer {
+  font-size: calc(8px + 0.2vw);
   text-align: center;
 }
